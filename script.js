@@ -10,30 +10,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
     const resultDiv = document.getElementById('result');
     const scoreDisplay = document.getElementById('score');
-    const timerDisplay = document.getElementById('timer');
+    // const timerDisplay = document.getElementById('timer'); // 時間制限なしなので削除
     const resultScreen = document.getElementById('result-screen');
     const finalScoreDisplay = document.getElementById('final-score');
     const retryButton = document.getElementById('retry-button');
 
     // === ゲームの状態管理変数 ===
     let currentScore = 0;
-    let questions = [];
+    let allQuestions = []; // ロードした全ての問題を格納
     let currentQuestion = null;
-    let overallTimer;      // ゲーム全体のタイマー
-    let overallTimeLeft = 30; // 全体の制限時間
+    let askedQuestions = []; // 出題済みの問題を格納 (重複防止用)
+    let questionCount = 0;   // 現在の出題数
+    const TOTAL_QUESTIONS = 10; // 合計出題数
     let gameEnded = false;
     let autoSkipTimer;     // 正解・不正解表示の自動スキップタイマー
 
     // === 画面表示のユーティリティ関数 ===
     function showScreen(screenToShow) {
-        // 全ての画面を非表示にする
         titleScreen.style.display = 'none';
         countdownScreen.style.display = 'none';
         gameScreen.style.display = 'none';
         resultScreen.style.display = 'none';
 
-        // 指定された画面を表示する
-        screenToShow.style.display = 'flex'; // flexを使って中央揃えを維持
+        screenToShow.style.display = 'flex';
     }
 
     // === 問題データの読み込み ===
@@ -43,9 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            questions = await response.json();
-            if (questions.length === 0) {
+            allQuestions = await response.json();
+            if (allQuestions.length === 0) {
                 alert('問題がありません。questions.jsonを確認してください。');
+                return false;
+            }
+            // 必要な問題数が総問題数より多い場合のエラーハンドリング
+            if (allQuestions.length < TOTAL_QUESTIONS) {
+                alert(`問題数が不足しています。最低${TOTAL_QUESTIONS}問必要です。`);
                 return false;
             }
             return true;
@@ -60,23 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateScore(change) {
         currentScore += change;
         scoreDisplay.textContent = `スコア: ${currentScore}`;
-    }
-
-    // === ゲーム全体のタイマー管理 ===
-    function startOverallTimer() {
-        clearInterval(overallTimer); // 既存のタイマーをクリア
-        overallTimeLeft = 30; // 全体の制限時間30秒に設定
-        gameEnded = false; // ゲーム終了フラグをリセット
-
-        timerDisplay.textContent = `残り時間: ${overallTimeLeft}秒`;
-        overallTimer = setInterval(() => {
-            overallTimeLeft--;
-            timerDisplay.textContent = `残り時間: ${overallTimeLeft}秒`;
-            if (overallTimeLeft <= 0) {
-                clearInterval(overallTimer);
-                endGame(); // 時間切れでゲーム終了
-            }
-        }, 1000);
     }
 
     // === ゲーム開始前のカウントダウン ===
@@ -100,23 +87,44 @@ document.addEventListener('DOMContentLoaded', () => {
     function startGame() {
         showScreen(gameScreen);
         currentScore = 0; // スコアをリセット
+        questionCount = 0; // 出題数をリセット
+        askedQuestions = []; // 出題済み問題をリセット
+        gameEnded = false;
         updateScore(0); // 表示を0に更新
-        startOverallTimer(); // 全体タイマーを開始
+
+        // timerDisplayは不要になったので非表示にするか削除する
+        // timerDisplay.style.display = 'none'; 
+
         displayNextQuestion(); // 最初の問題を表示
     }
 
     // === 次の問題を表示 ===
     function displayNextQuestion() {
-        if (gameEnded || questions.length === 0) {
-            // ゲームが終了しているか問題がない場合は処理しない
+        if (gameEnded) return; // ゲームが終了していたら処理しない
+
+        // 問題を10問解き終えたらゲーム終了
+        if (questionCount >= TOTAL_QUESTIONS) {
+            endGame();
             return;
         }
 
         // 以前のスキップタイマーがあればクリア
         clearTimeout(autoSkipTimer);
 
-        const randomIndex = Math.floor(Math.random() * questions.length);
-        currentQuestion = questions[randomIndex];
+        let availableQuestions = allQuestions.filter(q => !askedQuestions.includes(q));
+        if (availableQuestions.length === 0 && allQuestions.length >= TOTAL_QUESTIONS) {
+            // 全ての問題が出題済みだが、まだTOTAL_QUESTIONSに達していない場合のフォールバック（通常は起こらないはず）
+            // あるいは、問題数が少ない場合に循環させるならここで askedQuestions をリセットする
+             askedQuestions = [];
+             availableQuestions = allQuestions;
+        }
+
+        const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+        currentQuestion = availableQuestions[randomIndex];
+
+        // 出題済みの問題リストに追加
+        askedQuestions.push(currentQuestion);
+        questionCount++; // 出題数をカウントアップ
 
         quizImage.src = currentQuestion.image_path;
         answerInput.value = '';
@@ -129,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // === 解答処理 ===
     function submitAnswer() {
-        if (gameEnded) return; // ゲーム終了時は解答を受け付けない
+        if (gameEnded || !currentQuestion) return; // ゲーム終了時や問題がない場合は解答を受け付けない
 
         clearInterval(autoSkipTimer); // 新しい解答が来たのでスキップタイマーをリセット
 
@@ -153,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2秒後に次の問題へ自動スキップ
         autoSkipTimer = setTimeout(() => {
-            displayNextQuestion();
+            displayNextQuestion(); // 次の問題へ進む
         }, 2000); // 2000ミリ秒 = 2秒
     }
 
@@ -161,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function endGame() {
         if (gameEnded) return; // 既に終了している場合は何もしない
         gameEnded = true;
-        clearInterval(overallTimer); // 全体タイマーを停止
         clearTimeout(autoSkipTimer); // スキップタイマーも停止
 
         showScreen(resultScreen); // 結果画面を表示
@@ -170,11 +177,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // === リトライ処理 ===
     function retryGame() {
-        currentScore = 0; // スコアをリセット
-        gameEnded = false; // フラグをリセット
+        // 変数を初期化
+        currentScore = 0;
+        questionCount = 0;
+        askedQuestions = [];
+        gameEnded = false;
+
         updateScore(0); // 表示をリセット
         answerInput.disabled = false; // 入力欄を再度有効化
         answerInput.value = ''; // 入力欄をクリア
+        resultDiv.textContent = ''; // 結果表示をクリア
 
         startIntroCountdown(); // 初めの3秒カウントダウンから再開
     }
@@ -195,9 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (questionsLoaded) {
             showScreen(titleScreen); // 最初にタイトル画面を表示
         } else {
-            // 問題の読み込みに失敗したら、タイトル画面も表示しない
-            // 何らかのエラーメッセージを表示するなど
-            titleScreen.textContent = "問題の読み込みに失敗しました。";
+            titleScreen.textContent = "問題の読み込みに失敗しました。問題ファイルを確認してください。";
             titleScreen.style.display = 'flex';
         }
     }
