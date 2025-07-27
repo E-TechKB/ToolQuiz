@@ -108,10 +108,12 @@ button:hover {
 #result {
     margin-top: 10px;
     font-weight: bold;
-    min-height: 2em; /* 文字の高さが確保されるように */
-    width: 100%; /* 親要素いっぱいに広げる */
-    text-align: center; /* テキストを中央揃え */
-    padding: 5px 0; /* 少しパディング */
+    /* min-height: 2em; を維持しつつ、高さの変動をより厳密に制御 */
+    min-height: 40px; /* 例えば、2行分のテキストと絵文字が収まる高さを指定 (調整可能) */
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+    box-sizing: border-box; /* paddingを含めた高さ計算 */
 }
 
 #result.correct {
