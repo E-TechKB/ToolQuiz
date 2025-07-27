@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isCorrect) {
             // ★ここを修正します★
             // 正解の絵文字を追加
-            resultDiv.textContent = '🎉 正解！お見事！ 👏';
+            resultDiv.textContent = '🎉 正解！ 👏';
             resultDiv.className = 'correct';
         } else {
             resultDiv.textContent = `不正解... 正解は「${correctAnswer}」でした。`;
