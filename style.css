@@ -85,7 +85,8 @@ body {
 #answer-input {
     width: calc(100% - 20px);
     padding: 10px;
-    margin-bottom: 15px;
+    /* margin-bottom を削除または0にする */
+    margin-bottom: 0; /* これを追加または変更 */
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
@@ -101,7 +102,8 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 5px;
+    /* margin-top を削除または0にする */
+    margin-top: 0; /* これを追加または変更 */
     min-width: 120px;
     flex-shrink: 0; /* この要素は縮小しない */
 }
@@ -111,7 +113,9 @@ button:hover {
 }
 
 #result {
-    margin-top: 10px;
+    /* ここを調整 */
+    margin-top: 15px; /* 回答ボタンとの間に固定のスペースを確保 */
+    margin-bottom: 15px; /* 次の要素との間に固定のスペースを確保 (もしあれば) */
     font-weight: bold;
     height: 50px; /* 正解/不正解メッセージが確実に収まる高さをピクセル単位で指定 */
     line-height: 50px; /* テキストを垂直方向の中央に配置するため、高さと同じにする */
@@ -180,15 +184,19 @@ button:hover {
     #answer-input {
         font-size: 14px;
         padding: 8px;
+        margin-bottom: 0; /* スマホでも同じに */
     }
 
     button {
         padding: 8px 15px;
         font-size: 14px;
         min-width: 100px;
+        margin-top: 0; /* スマホでも同じに */
     }
 
     #result {
+        margin-top: 10px; /* スマホ用にも調整 */
+        margin-bottom: 10px; /* スマホ用にも調整 */
         height: 50px; /* スマホでも同じ高さを維持 */
         line-height: 50px;
     }
