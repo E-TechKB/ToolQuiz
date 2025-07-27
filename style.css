@@ -12,7 +12,7 @@ body {
 
 .quiz-container {
     background-color: #fff;
-    padding: 20px; /* パディングを少し減らす */
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -20,7 +20,7 @@ body {
     max-width: 600px; /* 最大幅を設定 */
     height: 95vh; /* ビューポートの高さの95%に合わせる */
     max-height: 700px; /* 必要に応じて最大高さを設定 */
-    display: flex; /* flexboxで子要素を配置 */
+    display: flex;
     flex-direction: column;
     justify-content: space-between; /* 要素を上下に均等配置 */
     align-items: center;
@@ -34,7 +34,6 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    /* 画面全体に広がるように調整 */
     flex-grow: 1; /* 親要素の残りのスペースを埋める */
 }
 
@@ -43,20 +42,20 @@ body {
     display: flex;
     justify-content: space-between; /* 両端に配置 */
     width: 100%;
-    padding: 0 10px; /* 左右に少しパディング */
-    margin-bottom: 10px; /* 画像との間に余白 */
+    padding: 0 10px;
+    margin-bottom: 10px;
     font-size: 1.2em;
     font-weight: bold;
 }
 
 /* プログレスバーコンテナ */
 .progress-bar-container {
-    width: 90%; /* ゲーム画面の幅に合わせる */
-    height: 10px; /* バーの高さ */
+    width: 90%;
+    height: 10px;
     background-color: #e0e0e0;
     border-radius: 5px;
-    margin: 15px 0; /* 上下の余白 */
-    overflow: hidden; /* 中のバーがはみ出さないように */
+    margin: 15px 0;
+    overflow: hidden;
 }
 
 /* プログレスバーの塗りつぶし部分 */
@@ -69,24 +68,25 @@ body {
 }
 
 #quiz-image {
-    max-width: 95%; /* 親要素の幅の95%に制限 */
-    max-height: 50%; /* 親要素の高さの50%に制限 (調整可能) */
-    width: auto; /* 元のアスペクト比を維持 */
-    height: auto; /* 元のアスペクト比を維持 */
-    object-fit: contain; /* 画像全体が表示されるように調整 */
-    margin: 10px 0; /* 上下のマージンを調整 */
+    max-width: 95%;
+    height: auto;
+    object-fit: contain;
+    margin: 10px 0;
     border: 1px solid #ddd;
     border-radius: 4px;
+    flex-grow: 1; /* 親の空きスペースを埋める */
+    max-height: 40%; /* 画像がコンテナの高さの最大40%を占めるように（調整可能） */
+    min-height: 150px; /* 画像の最小高さを確保（コンテンツがない場合でも崩れないように） */
 }
 
 #answer-input {
-    width: calc(100% - 20px); /* 左右のパディング分を考慮 */
+    width: calc(100% - 20px);
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    text-align: center; /* 入力文字を中央寄せ */
+    text-align: center;
 }
 
 button {
@@ -97,8 +97,8 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 5px; /* ボタンのマージンを調整 */
-    min-width: 120px; /* ボタンの最小幅 */
+    margin-top: 5px;
+    min-width: 120px;
 }
 
 button:hover {
@@ -106,9 +106,12 @@ button:hover {
 }
 
 #result {
-    margin-top: 10px; /* 結果表示の上マージンを調整 */
+    margin-top: 10px;
     font-weight: bold;
-    min-height: 2em; /* 結果表示のスペースを確保 */
+    min-height: 2em; /* 文字の高さが確保されるように */
+    width: 100%; /* 親要素いっぱいに広げる */
+    text-align: center; /* テキストを中央揃え */
+    padding: 5px 0; /* 少しパディング */
 }
 
 #result.correct {
@@ -121,7 +124,7 @@ button:hover {
 
 /* カウントダウン表示のスタイル */
 #countdown-display {
-    font-size: 8em; /* さらに大きく */
+    font-size: 8em;
     font-weight: bold;
     color: #007bff;
 }
@@ -133,7 +136,7 @@ button:hover {
 }
 
 #final-score {
-    font-size: 1.8em; /* 少し大きく */
+    font-size: 1.8em;
     font-weight: bold;
     margin-bottom: 25px;
 }
@@ -157,7 +160,8 @@ button:hover {
 
     #quiz-image {
         max-width: 98%;
-        max-height: 45%; /* スマートフォンで画像サイズをさらに調整 */
+        max-height: 35%; /* スマートフォンで画像サイズをさらに調整 */
+        min-height: 100px; /* スマホでの最小高さを確保 */
     }
 
     #answer-input {
