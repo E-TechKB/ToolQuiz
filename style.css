@@ -113,11 +113,11 @@ button:hover {
 #result {
     margin-top: 10px;
     font-weight: bold;
-    height: 2.5em; /* 絵文字を含めて2行半程度の高さを固定 (調整可能) */
-    line-height: 1.2em; /* 行の高さを調整 */
+    height: 50px; /* 正解/不正解メッセージが確実に収まる高さをピクセル単位で指定 */
+    line-height: 50px; /* テキストを垂直方向の中央に配置するため、高さと同じにする */
     width: 100%;
     text-align: center;
-    padding: 5px 0;
+    padding: 0; /* 高さを固定したので、paddingは不要か最小限に */
     box-sizing: border-box;
     flex-shrink: 0; /* この要素は縮小しない */
     overflow: hidden; /* テキストがはみ出したら非表示 */
@@ -189,7 +189,8 @@ button:hover {
     }
 
     #result {
-        height: 2.5em; /* スマホでも同じ高さを維持 */
+        height: 50px; /* スマホでも同じ高さを維持 */
+        line-height: 50px;
     }
 
     #countdown-display {
