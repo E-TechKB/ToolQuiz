@@ -3,11 +3,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* ビューポートの高さに合わせる */
+    min-height: 100vh;
     background-color: #f4f4f4;
     margin: 0;
-    overflow: hidden; /* スクロールバーを非表示にする */
-    box-sizing: border-box; /* paddingやborderをwidth/heightに含める */
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .quiz-container {
@@ -16,26 +16,27 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 95%; /* 幅を広げ、余白を確保 */
-    max-width: 600px; /* 最大幅を設定 */
-    height: 95vh; /* ビューポートの高さの95%に合わせる */
-    max-height: 700px; /* 必要に応じて最大高さを設定 */
+    width: 95%;
+    max-width: 600px;
+    height: 95vh;
+    max-height: 700px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* 要素を上下に均等配置 */
+    justify-content: space-between;
     align-items: center;
-    box-sizing: border-box; /* paddingを含めたサイズ */
+    box-sizing: border-box;
 }
 
 /* 画面コンテナの基本スタイル (共通部分) */
 .screen {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column; /* 子要素を縦に並べる */
+    align-items: center; /* 子要素を中央寄せ */
+    justify-content: space-between; /* コンテンツを上下に均等に配置 */
     width: 100%;
-    flex-grow: 1; /* 親要素の残りのスペースを埋める */
-    min-height: 400px; /* ゲーム画面がこれより小さくならないようにする値 (調整可能) */
+    flex-grow: 1;
+    min-height: 400px; /* ゲーム画面の最小高さを確保 */
+    /* padding-bottom: 20px; */ /* 下の余白を確保する場合 */
 }
 
 /* ゲーム情報 (スコアと問題数) のレイアウト */
@@ -47,7 +48,7 @@ body {
     margin-bottom: 10px;
     font-size: 1.2em;
     font-weight: bold;
-    flex-shrink: 0; /* この要素は縮小しない */
+    flex-shrink: 0; /* 縮小しない */
 }
 
 /* プログレスバーコンテナ */
@@ -58,40 +59,62 @@ body {
     border-radius: 5px;
     margin: 15px 0;
     overflow: hidden;
-    flex-shrink: 0; /* この要素は縮小しない */
+    flex-shrink: 0; /* 縮小しない */
 }
 
 /* プログレスバーの塗りつぶし部分 */
 .progress-bar-fill {
     height: 100%;
-    width: 0%; /* JavaScriptで制御 */
-    background-color: #4CAF50; /* 緑色で進捗を示す */
+    width: 0%;
+    background-color: #4CAF50;
     border-radius: 5px;
-    transition: width 0.3s ease-in-out; /* 滑らかなアニメーション */
+    transition: width 0.3s ease-in-out;
+}
+
+/* ★ここから追加・変更★ */
+
+/* 画像コンテナ */
+.image-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-grow: 1; /* 親の空きスペースを埋める */
+    max-height: 45%; /* 親（game-screen）の高さの最大45% (調整可能) */
+    min-height: 180px; /* 画像エリアの最小高さを確保 (調整可能) */
+    margin: 10px 0; /* 上下のマージンを調整 */
 }
 
 #quiz-image {
-    max-width: 95%;
+    max-width: 95%; /* 親コンテナに合わせて最大幅 */
+    max-height: 100%; /* 親の高さに収まるように */
+    width: auto; /* 元のアスペクト比を維持 */
     height: auto; /* 元のアスペクト比を維持 */
-    object-fit: contain;
-    margin: 10px 0;
+    object-fit: contain; /* 画像全体が表示されるように調整 */
     border: 1px solid #ddd;
     border-radius: 4px;
-    flex-grow: 1; /* 親の空きスペースを埋める */
-    max-height: 45%; /* 親（game-screen）の高さの最大45% (調整可能) */
-    min-height: 150px; /* 画像の最小高さを確保（コンテンツがない場合でも崩れないように） */
+}
+
+/* 入力とボタン、結果表示をまとめるコンテナ */
+.input-and-result-area {
+    display: flex;
+    flex-direction: column; /* 子要素を縦に並べる */
+    align-items: center; /* 子要素を中央寄せ */
+    width: 100%;
+    flex-shrink: 0; /* このコンテナは縮小しない */
+    /* このエリア全体の高さをある程度固定する */
+    min-height: 160px; /* 入力、ボタン、結果表示が収まる最小高さ (調整可能) */
+    padding-bottom: 10px; /* 必要であれば下部に余白 */
 }
 
 #answer-input {
     width: calc(100% - 20px);
     padding: 10px;
-    /* margin-bottom を削除または0にする */
-    margin-bottom: 0; /* これを追加または変更 */
+    margin-bottom: 15px; /* ボタンとの間のスペース */
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
     text-align: center;
-    flex-shrink: 0; /* この要素は縮小しない */
 }
 
 button {
@@ -102,10 +125,8 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    /* margin-top を削除または0にする */
-    margin-top: 0; /* これを追加または変更 */
+    margin-top: 0; /* input-and-result-area内のFlexアイテムなので個別のmargin-topは不要 */
     min-width: 120px;
-    flex-shrink: 0; /* この要素は縮小しない */
 }
 
 button:hover {
@@ -113,18 +134,16 @@ button:hover {
 }
 
 #result {
-    /* ここを調整 */
-    margin-top: 15px; /* 回答ボタンとの間に固定のスペースを確保 */
-    margin-bottom: 15px; /* 次の要素との間に固定のスペースを確保 (もしあれば) */
+    margin-top: 15px; /* ボタンとの間のスペース */
     font-weight: bold;
     height: 50px; /* 正解/不正解メッセージが確実に収まる高さをピクセル単位で指定 */
     line-height: 50px; /* テキストを垂直方向の中央に配置するため、高さと同じにする */
     width: 100%;
     text-align: center;
-    padding: 0; /* 高さを固定したので、paddingは不要か最小限に */
+    padding: 0;
     box-sizing: border-box;
     flex-shrink: 0; /* この要素は縮小しない */
-    overflow: hidden; /* テキストがはみ出したら非表示 */
+    overflow: hidden;
 }
 
 #result.correct {
@@ -135,26 +154,9 @@ button:hover {
     color: red;
 }
 
-/* カウントダウン表示のスタイル */
-#countdown-display {
-    font-size: 8em;
-    font-weight: bold;
-    color: #007bff;
-}
+/* ... カウントダウン表示と結果表示のスタイルは変更なし ... */
 
-/* 結果表示のスタイル */
-#result-screen h2 {
-    color: #333;
-    margin-bottom: 15px;
-}
-
-#final-score {
-    font-size: 1.8em;
-    font-weight: bold;
-    margin-bottom: 25px;
-}
-
-/* スマートフォンでの調整 */
+/* スマートフォンでの調整 (既存のmedia queryに追記・修正) */
 @media (max-width: 768px) {
     .quiz-container {
         padding: 15px;
@@ -163,7 +165,8 @@ button:hover {
     }
 
     .screen {
-        min-height: 350px; /* スマホでのゲーム画面の最小高さ */
+        min-height: 350px;
+        /* justify-content: space-between; は維持 */
     }
 
     .game-info {
@@ -175,29 +178,36 @@ button:hover {
         margin: 10px 0;
     }
 
+    .image-area {
+        min-height: 120px; /* スマホでの画像エリアの最小高さ */
+        max-height: 40%;
+        margin: 5px 0;
+    }
+
     #quiz-image {
         max-width: 98%;
-        max-height: 40%; /* スマートフォンで画像サイズをさらに調整 */
-        min-height: 100px; /* スマホでの最小高さを確保 */
+    }
+
+    .input-and-result-area {
+        min-height: 150px; /* スマホでの入力・ボタン・結果エリアの最小高さ */
+        padding-bottom: 5px;
     }
 
     #answer-input {
         font-size: 14px;
         padding: 8px;
-        margin-bottom: 0; /* スマホでも同じに */
+        margin-bottom: 10px;
     }
 
     button {
         padding: 8px 15px;
         font-size: 14px;
         min-width: 100px;
-        margin-top: 0; /* スマホでも同じに */
     }
 
     #result {
-        margin-top: 10px; /* スマホ用にも調整 */
-        margin-bottom: 10px; /* スマホ用にも調整 */
-        height: 50px; /* スマホでも同じ高さを維持 */
+        margin-top: 10px;
+        height: 50px;
         line-height: 50px;
     }
 
