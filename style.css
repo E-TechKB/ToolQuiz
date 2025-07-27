@@ -31,11 +31,11 @@ body {
 .screen {
     display: flex;
     flex-direction: column; /* 子要素を縦に並べる */
-    align-items: center; /* 子要素を中央寄せ */
-    justify-content: space-between; /* コンテンツを上下に均等に配置 */
+    align-items: center; /* 子要素を水平方向の中央に配置 */
+    justify-content: center; /* 子要素を垂直方向の中央に配置 */
     width: 100%;
     flex-grow: 1;
-    min-height: 400px; /* ゲーム画面の最小高さを確保 */
+    min-height: 400px; /* ゲーム画面がこれより小さくならないようにする値 (調整可能) */
 }
 
 /* ゲーム情報 (スコアと問題数) のレイアウト */
@@ -157,18 +157,20 @@ button:hover {
     font-size: 8em;
     font-weight: bold;
     color: #007bff;
+    /* marginを削除または調整し、Flexboxに任せる */
+    margin: 0;
 }
 
 /* 結果表示のスタイル */
 #result-screen h2 {
     color: #333;
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* ここは必要に応じて維持 */
 }
 
 #final-score {
     font-size: 1.8em;
     font-weight: bold;
-    margin-bottom: 25px;
+    margin-bottom: 25px; /* ここは必要に応じて維持 */
 }
 
 /* スマートフォンでの調整 */
