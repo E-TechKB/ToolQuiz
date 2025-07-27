@@ -49,6 +49,25 @@ body {
     font-weight: bold;
 }
 
+/* プログレスバーコンテナ */
+.progress-bar-container {
+    width: 90%; /* ゲーム画面の幅に合わせる */
+    height: 10px; /* バーの高さ */
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin: 15px 0; /* 上下の余白 */
+    overflow: hidden; /* 中のバーがはみ出さないように */
+}
+
+/* プログレスバーの塗りつぶし部分 */
+.progress-bar-fill {
+    height: 100%;
+    width: 0%; /* JavaScriptで制御 */
+    background-color: #4CAF50; /* 緑色で進捗を示す */
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out; /* 滑らかなアニメーション */
+}
+
 #quiz-image {
     max-width: 95%; /* 親要素の幅の95%に制限 */
     max-height: 50%; /* 親要素の高さの50%に制限 (調整可能) */
@@ -130,6 +149,10 @@ button:hover {
     .game-info {
         font-size: 1em;
         padding: 0 5px;
+    }
+
+    .progress-bar-container {
+        margin: 10px 0;
     }
 
     #quiz-image {
