@@ -1,69 +1,32 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
+/* 省略: 既存のスタイル */
+
+/* 画面コンテナの基本スタイル */
+.screen {
+    display: flex; /* Flexboxで中央揃えなどに利用 */
+    flex-direction: column;
     align-items: center;
-    min-height: 100vh;
-    background-color: #f4f4f4;
-    margin: 0;
+    justify-content: center;
+    width: 100%;
+    min-height: 300px; /* ある程度の高さを確保 */
+    padding: 20px;
+    box-sizing: border-box; /* paddingを含めた幅にする */
 }
 
-.quiz-container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 90%;
-    max-width: 500px;
-}
-
-#quiz-image {
-    max-width: 100%;
-    height: auto;
-    margin: 20px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-#answer-input {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-#result {
-    margin-top: 15px;
+/* カウントダウン表示のスタイル */
+#countdown-display {
+    font-size: 5em;
     font-weight: bold;
+    color: #007bff;
 }
 
-#result.correct {
-    color: green;
+/* 結果表示のスタイル */
+#result-screen h2 {
+    color: #333;
+    margin-bottom: 20px;
 }
 
-#result.incorrect {
-    color: red;
-}
-
-#score, #timer {
-    font-size: 1.2em;
-    margin-bottom: 10px;
+#final-score {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 30px;
 }
