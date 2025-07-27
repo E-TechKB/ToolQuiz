@@ -11,20 +11,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultDiv = document.getElementById('result');
     const scoreDisplay = document.getElementById('score');
     const questionNumberDisplay = document.getElementById('question-number');
-    const progressBarFill = document.getElementById('progress-bar-fill'); // 追加
+    const progressBarFill = document.getElementById('progress-bar-fill');
     const resultScreen = document.getElementById('result-screen');
     const finalScoreDisplay = document.getElementById('final-score');
     const retryButton = document.getElementById('retry-button');
 
     // === ゲームの状態管理変数 ===
     let currentScore = 0;
-    let allQuestions = [];
+    let allQuestions = []; // ロードした全ての問題を格納
     let currentQuestion = null;
-    let askedQuestions = [];
-    let questionCount = 0;
-    const TOTAL_QUESTIONS = 10;
+    let askedQuestions = []; // 出題済みの問題を格納 (重複防止用)
+    let questionCount = 0;   // 現在の出題数
+    const TOTAL_QUESTIONS = 10; // 合計出題数
     let gameEnded = false;
-    let autoSkipTimer;
+    let autoSkipTimer;     // 正解・不正解表示の自動スキップタイマー
 
     // === 画面表示のユーティリティ関数 ===
     function showScreen(screenToShow) {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gameScreen.style.display = 'none';
         resultScreen.style.display = 'none';
 
-        screenToShow.style.display = 'flex';
+        screenToShow.style.display = 'flex'; // flexを使って中央揃えを維持
     }
 
     // === 問題データの読み込み ===
@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('問題がありません。questions.jsonを確認してください。');
                 return false;
             }
+            // 必要な問題数が総問題数より多い場合のエラーハンドリング
             if (allQuestions.length < TOTAL_QUESTIONS) {
                 alert(`問題数が不足しています。最低${TOTAL_QUESTIONS}問必要です。`);
                 return false;
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 countdownDisplay.textContent = count;
             } else {
                 clearInterval(introTimer);
-                startGame();
+                startGame(); // カウントダウン終了後、ゲーム開始
             }
         }, 1000);
     }
@@ -86,17 +87,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // === ゲーム開始 ===
     function startGame() {
         showScreen(gameScreen);
-        currentScore = 0;
-        questionCount = 0;
-        askedQuestions = [];
+        currentScore = 0; // スコアをリセット
+        questionCount = 0; // 出題数をリセット
+        askedQuestions = []; // 出題済み問題をリセット
         gameEnded = false;
-        updateScore(0);
+        updateScore(0); // 表示を0に更新
         updateQuestionNumberDisplay(); // 初期表示を更新 (プログレスバーもここで0%に)
 
-        displayNextQuestion();
+        displayNextQuestion(); // 最初の問題を表示
     }
 
-    // === 何問目かを表示を更新する関数 ===
+    // === 何問目かを表示とプログレスバーを更新する関数 ===
     function updateQuestionNumberDisplay() {
         questionNumberDisplay.textContent = `${questionCount} / ${TOTAL_QUESTIONS} 問`;
 
@@ -107,27 +108,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // === 次の問題を表示 ===
     function displayNextQuestion() {
-        if (gameEnded) return;
+        if (gameEnded) return; // ゲームが終了していたら処理しない
 
+        // 問題をTOTAL_QUESTIONS解き終えたらゲーム終了
         if (questionCount >= TOTAL_QUESTIONS) {
             endGame();
             return;
         }
 
+        // 以前のスキップタイマーがあればクリア
         clearTimeout(autoSkipTimer);
 
         let availableQuestions = allQuestions.filter(q => !askedQuestions.includes(q));
         if (availableQuestions.length === 0) {
-            // 全問題が出題済みになったら、 askedQuestions をリセットして再度出題可能にする
-            // または、問題数が足りない場合はゲームを終了するロジックに変更する
+            // ここに到達することは、通常はTOTAL_QUESTIONSがallQuestions.lengthより小さい限り起こらない
+            // もしここに来たら、問題が不足しているか、ロジックに問題がある可能性
             if (allQuestions.length < TOTAL_QUESTIONS) {
-                 endGame(); // 例: 問題数が足りない場合はここで終了
+                 // 問題数が足りない場合はここでゲームを終了
+                 endGame();
                  return;
             }
-        }
-        
-        // 問題数が足りなくなることを防ぐため、念のためチェック
-        if (availableQuestions.length === 0) {
+            // 完全に問題が尽きたが、TOTAL_QUESTIONSに達していない場合（非常に稀）
             console.error("出題可能な問題がありません！");
             endGame(); // 問題がないのでゲーム終了
             return;
@@ -137,8 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const randomIndex = Math.floor(Math.random() * availableQuestions.length);
         currentQuestion = availableQuestions[randomIndex];
 
+        // 出題済みの問題リストに追加
         askedQuestions.push(currentQuestion);
-        questionCount++;
+        questionCount++; // 出題数をカウントアップ
         updateQuestionNumberDisplay(); // 表示を更新
 
         quizImage.src = currentQuestion.image_path;
@@ -146,15 +148,15 @@ document.addEventListener('DOMContentLoaded', () => {
         resultDiv.textContent = '';
         resultDiv.className = '';
         submitButton.style.display = 'block';
-        answerInput.disabled = false;
+        answerInput.disabled = false; // 入力欄を有効化
         answerInput.focus();
     }
 
     // === 解答処理 ===
     function submitAnswer() {
-        if (gameEnded || !currentQuestion) return;
+        if (gameEnded || !currentQuestion) return; // ゲーム終了時や問題がない場合は解答を受け付けない
 
-        clearInterval(autoSkipTimer);
+        clearInterval(autoSkipTimer); // 新しい解答が来たのでスキップタイマーをリセット
 
         const userAnswer = answerInput.value.trim();
         const correctAnswer = currentQuestion.name;
@@ -163,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const scoreChange = isCorrect ? 10 : -5;
 
         if (isCorrect) {
-            resultDiv.textContent = '🎉 正解！お見事！ 👏';
+            resultDiv.textContent = '🎉 正解！ 👏';
             resultDiv.className = 'correct';
         } else {
             resultDiv.textContent = `不正解... 正解は「${correctAnswer}」でした。`;
@@ -171,38 +173,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         updateScore(scoreChange);
 
-        submitButton.style.display = 'none';
-        answerInput.disabled = true;
+        submitButton.style.display = 'none'; // 解答後、解答ボタンを非表示に
+        answerInput.disabled = true; // 解答後、入力欄を無効化
 
+        // 2秒後に次の問題へ自動スキップ
         autoSkipTimer = setTimeout(() => {
-            displayNextQuestion();
-        }, 2000);
+            displayNextQuestion(); // 次の問題へ進む
+        }, 2000); // 2000ミリ秒 = 2秒
     }
 
     // === ゲーム終了処理 ===
     function endGame() {
-        if (gameEnded) return;
+        if (gameEnded) return; // 既に終了している場合は何もしない
         gameEnded = true;
-        clearTimeout(autoSkipTimer);
+        clearTimeout(autoSkipTimer); // スキップタイマーも停止
 
-        showScreen(resultScreen);
+        showScreen(resultScreen); // 結果画面を表示
         finalScoreDisplay.textContent = `最終スコア: ${currentScore} 点`;
     }
 
     // === リトライ処理 ===
     function retryGame() {
+        // 変数を初期化
         currentScore = 0;
         questionCount = 0;
         askedQuestions = [];
         gameEnded = false;
 
-        updateScore(0);
-        answerInput.disabled = false;
-        answerInput.value = '';
-        resultDiv.textContent = '';
-        updateQuestionNumberDisplay(); // リセット時も表示を更新 (プログレスバーも0%に)
+        updateScore(0); // 表示をリセット
+        answerInput.disabled = false; // 入力欄を再度有効化
+        answerInput.value = ''; // 入力欄をクリア
+        resultDiv.textContent = ''; // 結果表示をクリア
+        updateQuestionNumberDisplay(); // リセット時もプログレスバーと問数表示を更新 (0%に)
 
-        startIntroCountdown();
+        startIntroCountdown(); // 初めの3秒カウントダウンから再開
     }
 
     // === イベントリスナー ===
@@ -219,12 +223,13 @@ document.addEventListener('DOMContentLoaded', () => {
     async function initializeQuiz() {
         const questionsLoaded = await loadQuestions();
         if (questionsLoaded) {
-            showScreen(titleScreen);
+            showScreen(titleScreen); // 最初にタイトル画面を表示
         } else {
-            titleScreen.textContent = "問題の読み込みに失敗しました。問題ファイルを確認してください。";
+            // 問題の読み込みに失敗したらエラーメッセージを表示
+            titleScreen.textContent = "問題の読み込みに失敗しました。questions.jsonを確認してください。";
             titleScreen.style.display = 'flex';
         }
     }
 
-    initializeQuiz();
+    initializeQuiz(); // アプリ起動時に初期化処理を実行
 });
