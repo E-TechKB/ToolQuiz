@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
     const resultDiv = document.getElementById('result');
     const scoreDisplay = document.getElementById('score');
-    const questionNumberDisplay = document.getElementById('question-number'); // 追加
+    const questionNumberDisplay = document.getElementById('question-number');
+    const progressBarFill = document.getElementById('progress-bar-fill'); // 追加
     const resultScreen = document.getElementById('result-screen');
     const finalScoreDisplay = document.getElementById('final-score');
     const retryButton = document.getElementById('retry-button');
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         askedQuestions = [];
         gameEnded = false;
         updateScore(0);
-        updateQuestionNumberDisplay(); // 初期表示を更新
+        updateQuestionNumberDisplay(); // 初期表示を更新 (プログレスバーもここで0%に)
 
         displayNextQuestion();
     }
@@ -98,6 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // === 何問目かを表示を更新する関数 ===
     function updateQuestionNumberDisplay() {
         questionNumberDisplay.textContent = `${questionCount} / ${TOTAL_QUESTIONS} 問`;
+
+        // プログレスバーの更新
+        const progressPercentage = (questionCount / TOTAL_QUESTIONS) * 100;
+        progressBarFill.style.width = `${progressPercentage}%`;
     }
 
     // === 次の問題を表示 ===
@@ -112,17 +117,13 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTimeout(autoSkipTimer);
 
         let availableQuestions = allQuestions.filter(q => !askedQuestions.includes(q));
-        if (availableQuestions.length === 0) { // すべて出題済みの場合（問題数がTOTAL_QUESTIONSに満たない場合など）
+        if (availableQuestions.length === 0) {
             // 全問題が出題済みになったら、 askedQuestions をリセットして再度出題可能にする
             // または、問題数が足りない場合はゲームを終了するロジックに変更する
             if (allQuestions.length < TOTAL_QUESTIONS) {
-                 // ここでゲーム終了など、適切なハンドリングを行う
                  endGame(); // 例: 問題数が足りない場合はここで終了
                  return;
             }
-            // 循環させる場合はここを有効にする
-            // askedQuestions = [];
-            // availableQuestions = allQuestions;
         }
         
         // 問題数が足りなくなることを防ぐため、念のためチェック
@@ -162,9 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const scoreChange = isCorrect ? 10 : -5;
 
         if (isCorrect) {
-            // ★ここを修正します★
-            // 正解の絵文字を追加
-            resultDiv.textContent = '🎉 正解！ 👏';
+            resultDiv.textContent = '🎉 正解！お見事！ 👏';
             resultDiv.className = 'correct';
         } else {
             resultDiv.textContent = `不正解... 正解は「${correctAnswer}」でした。`;
@@ -201,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         answerInput.disabled = false;
         answerInput.value = '';
         resultDiv.textContent = '';
-        questionNumberDisplay.textContent = ''; // リセット
+        updateQuestionNumberDisplay(); // リセット時も表示を更新 (プログレスバーも0%に)
 
         startIntroCountdown();
     }
