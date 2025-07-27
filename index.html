@@ -8,15 +8,6 @@
 </head>
 <body>
     <div class="quiz-container">
-        <div id="title-screen" class="screen">
-            <h1>画像クイズ</h1>
-            <button id="start-button">スタート</button>
-        </div>
-
-        <div id="countdown-screen" class="screen" style="display: none;">
-            <h2 id="countdown-display">3</h2>
-        </div>
-
         <div id="game-screen" class="screen" style="display: none;">
             <div class="game-info">
                 <div id="score">スコア: 0</div>
@@ -26,18 +17,18 @@
                 <div class="progress-bar-fill" id="progress-bar-fill"></div>
             </div>
 
-            <img id="quiz-image" src="" alt="クイズ画像">
-            <input type="text" id="answer-input" placeholder="名前を入力" autocomplete="off">
-            <button id="submit-button">解答</button>
-            <div id="result"></div>
-        </div>
+            <div class="image-area">
+                <img id="quiz-image" src="" alt="クイズ画像">
+            </div>
 
-        <div id="result-screen" class="screen" style="display: none;">
-            <h2>ゲーム終了！</h2>
-            <p id="final-score">最終スコア: 0点</p>
-            <button id="retry-button">リトライ</button>
+            <div class="input-and-result-area">
+                <input type="text" id="answer-input" placeholder="名前を入力" autocomplete="off">
+                <button id="submit-button">解答</button>
+                <div id="result"></div>
+            </div>
+            </div>
+
         </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
