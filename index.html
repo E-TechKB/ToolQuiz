@@ -18,13 +18,14 @@
         </div>
 
         <div id="game-screen" class="screen" style="display: none;">
-            <div id="score">スコア: 0</div>
-            <div id="timer">残り時間: 30秒</div>
+            <div class="game-info">
+                <div id="score">スコア: 0</div>
+                <div id="question-number">1 / 10 問</div> </div>
             <img id="quiz-image" src="" alt="クイズ画像">
             <input type="text" id="answer-input" placeholder="名前を入力" autocomplete="off">
             <button id="submit-button">解答</button>
             <div id="result"></div>
-            </div>
+        </div>
 
         <div id="result-screen" class="screen" style="display: none;">
             <h2>ゲーム終了！</h2>
