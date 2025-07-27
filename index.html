@@ -8,6 +8,15 @@
 </head>
 <body>
     <div class="quiz-container">
+        <div id="title-screen" class="screen">
+            <h1>画像クイズ</h1>
+            <button id="start-button">スタート</button>
+        </div>
+
+        <div id="countdown-screen" class="screen" style="display: none;">
+            <h2 id="countdown-display">3</h2>
+        </div>
+
         <div id="game-screen" class="screen" style="display: none;">
             <div class="game-info">
                 <div id="score">スコア: 0</div>
@@ -28,7 +37,12 @@
             </div>
             </div>
 
+        <div id="result-screen" class="screen" style="display: none;">
+            <h2>ゲーム終了！</h2>
+            <p id="final-score">最終スコア: 0点</p>
+            <button id="retry-button">リトライ</button>
         </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
