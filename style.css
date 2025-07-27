@@ -3,11 +3,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 100vh; /* ビューポートの高さに合わせる */
     background-color: #f4f4f4;
     margin: 0;
-    overflow: hidden;
-    box-sizing: border-box;
+    overflow: hidden; /* スクロールバーを非表示にする */
+    box-sizing: border-box; /* paddingやborderをwidth/heightに含める */
 }
 
 .quiz-container {
@@ -16,10 +16,10 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 95%;
-    max-width: 600px;
-    height: 95vh;
-    max-height: 700px;
+    width: 95%; /* 幅を広げ、余白を確保 */
+    max-width: 600px; /* 最大幅を設定 */
+    height: 95vh; /* ビューポートの高さの95%に合わせる */
+    max-height: 700px; /* 必要に応じて最大高さを設定 */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -36,7 +36,6 @@ body {
     width: 100%;
     flex-grow: 1;
     min-height: 400px; /* ゲーム画面の最小高さを確保 */
-    /* padding-bottom: 20px; */ /* 下の余白を確保する場合 */
 }
 
 /* ゲーム情報 (スコアと問題数) のレイアウト */
@@ -71,7 +70,7 @@ body {
     transition: width 0.3s ease-in-out;
 }
 
-/* ★ここから追加・変更★ */
+/* ★ここから追加・変更されたCSSです★ */
 
 /* 画像コンテナ */
 .image-area {
@@ -102,7 +101,6 @@ body {
     align-items: center; /* 子要素を中央寄せ */
     width: 100%;
     flex-shrink: 0; /* このコンテナは縮小しない */
-    /* このエリア全体の高さをある程度固定する */
     min-height: 160px; /* 入力、ボタン、結果表示が収まる最小高さ (調整可能) */
     padding-bottom: 10px; /* 必要であれば下部に余白 */
 }
@@ -154,9 +152,26 @@ button:hover {
     color: red;
 }
 
-/* ... カウントダウン表示と結果表示のスタイルは変更なし ... */
+/* カウントダウン表示のスタイル */
+#countdown-display {
+    font-size: 8em;
+    font-weight: bold;
+    color: #007bff;
+}
 
-/* スマートフォンでの調整 (既存のmedia queryに追記・修正) */
+/* 結果表示のスタイル */
+#result-screen h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#final-score {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+/* スマートフォンでの調整 */
 @media (max-width: 768px) {
     .quiz-container {
         padding: 15px;
@@ -166,7 +181,6 @@ button:hover {
 
     .screen {
         min-height: 350px;
-        /* justify-content: space-between; は維持 */
     }
 
     .game-info {
