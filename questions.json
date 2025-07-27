@@ -1,0 +1,14 @@
+[
+    {
+        "image_path": "images/apple.png",
+        "name": "りんご"
+    },
+    {
+        "image_path": "images/banana.png",
+        "name": "バナナ"
+    },
+    {
+        "image_path": "images/orange.png",
+        "name": "みかん"
+    }
+]
