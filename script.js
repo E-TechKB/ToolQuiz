@@ -153,33 +153,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // === 解答処理 ===
-    function submitAnswer() {
-        if (gameEnded || !currentQuestion) return; // ゲーム終了時や問題がない場合は解答を受け付けない
+function submitAnswer() {
+        if (gameEnded || !currentQuestion) return;
 
-        clearInterval(autoSkipTimer); // 新しい解答が来たのでスキップタイマーをリセット
+        clearInterval(autoSkipTimer);
 
-        const userAnswer = answerInput.value.trim();
-        const correctAnswer = currentQuestion.name;
+        const userAnswer = answerInput.value.trim().toLowerCase(); // ユーザー入力を小文字に変換
+        // currentQuestion.name が配列の場合と文字列の場合に対応
+        const correctAnswers = Array.isArray(currentQuestion.name) ?
+                                currentQuestion.name.map(ans => ans.toLowerCase()) :
+                                [currentQuestion.name.toLowerCase()];
 
-        const isCorrect = (userAnswer.toLowerCase() === correctAnswer.toLowerCase());
+        // ユーザーの解答が正しい解答のいずれかに含まれているかチェック
+        const isCorrect = correctAnswers.includes(userAnswer);
         const scoreChange = isCorrect ? 10 : -5;
 
         if (isCorrect) {
             resultDiv.textContent = '🎉 正解！ 👏';
             resultDiv.className = 'correct';
         } else {
-            resultDiv.textContent = `不正解... 正解は「${correctAnswer}」でした。`;
+            // 不正解の場合、正しい解答の1つ（または全て）を表示
+            const displayCorrectAnswer = Array.isArray(currentQuestion.name) ?
+                                        currentQuestion.name[0] : // 配列なら最初の要素を表示
+                                        currentQuestion.name;
+            resultDiv.textContent = `不正解... 正解は「${displayCorrectAnswer}」でした。`;
             resultDiv.className = 'incorrect';
         }
         updateScore(scoreChange);
 
-        submitButton.style.display = 'none'; // 解答後、解答ボタンを非表示に
-        answerInput.disabled = true; // 解答後、入力欄を無効化
+        submitButton.style.display = 'none';
+        answerInput.disabled = true;
 
-        // 2秒後に次の問題へ自動スキップ
         autoSkipTimer = setTimeout(() => {
-            displayNextQuestion(); // 次の問題へ進む
-        }, 2000); // 2000ミリ秒 = 2秒
+            displayNextQuestion();
+        }, 2000);
     }
 
     // === ゲーム終了処理 ===
