@@ -1,43 +1,52 @@
 [
     {
         "image_path": "images/apple.png",
-        "name": "りんご"
+        "name": ["りんご", "リンゴ"]
     },
     {
         "image_path": "images/banana.png",
-        "name": "バナナ"
+        "name": ["バナナ", "ばなな"]
+    },
+    {
+        "image_path": "images/orange.png",
+        "name": ["みかん", "ミカン", "オレンジ", "おれんじ"]
+    },
+
+    {
+        "image_path": "images/apple.png",
+        "name": ["りんご", "リンゴ"]
     },
     {
         "image_path": "images/banana.png",
-        "name": "バナナ"
+        "name": ["バナナ", "ばなな"]
+    },
+    {
+        "image_path": "images/orange.png",
+        "name": ["みかん", "ミカン", "オレンジ", "おれんじ"]
+    },
+    {
+        "image_path": "images/apple.png",
+        "name": ["りんご", "リンゴ"]
     },
     {
         "image_path": "images/banana.png",
-        "name": "バナナ"
+        "name": ["バナナ", "ばなな"]
     },
     {
-        "image_path": "images/banana.png",
-        "name": "バナナ"
-    },
-    {
-        "image_path": "images/banana.png",
-        "name": "バナナ"
-    },
-    {
-        "image_path": "images/banana.png",
-        "name": "バナナ"
-    },
-    {
-        "image_path": "images/banana.png",
-        "name": "バナナ"
-    },
-    {
-        "image_path": "images/banana.png",
-        "name": "バナナ"
+        "image_path": "images/orange.png",
+        "name": ["みかん", "ミカン", "オレンジ", "おれんじ"]
     },
     
     {
+        "image_path": "images/apple.png",
+        "name": ["りんご", "リンゴ"]
+    },
+    {
+        "image_path": "images/banana.png",
+        "name": ["バナナ", "ばなな"]
+    },
+    {
         "image_path": "images/orange.png",
-        "name": "みかん"
-    }
+        "name": ["みかん", "ミカン", "オレンジ", "おれんじ"]
+    }    
 ]
