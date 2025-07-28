@@ -152,8 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
         answerInput.focus();
     }
 
-    // === 解答処理 ===
-function submitAnswer() {
+// === 解答処理 ===
+    function submitAnswer() {
         if (gameEnded || !currentQuestion) return;
 
         clearInterval(autoSkipTimer);
@@ -172,11 +172,12 @@ function submitAnswer() {
             resultDiv.textContent = '🎉 正解！ 👏';
             resultDiv.className = 'correct';
         } else {
-            // 不正解の場合、正しい解答の1つ（または全て）を表示
-            const displayCorrectAnswer = Array.isArray(currentQuestion.name) ?
-                                        currentQuestion.name[0] : // 配列なら最初の要素を表示
+            // ★この部分を修正します★
+            // 正解のリストをカンマと「または」でつなげて表示
+            const displayCorrectAnswers = Array.isArray(currentQuestion.name) ?
+                                        currentQuestion.name.join('、') : // 配列なら「、」で連結
                                         currentQuestion.name;
-            resultDiv.textContent = `不正解... 正解は「${displayCorrectAnswer}」でした。`;
+            resultDiv.textContent = `不正解... 正解は「${displayCorrectAnswers}」でした。`;
             resultDiv.className = 'incorrect';
         }
         updateScore(scoreChange);
