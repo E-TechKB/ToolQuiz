@@ -18,9 +18,25 @@
     {
         "image_path": "images/unadon.jpg",
         "name": ["うなぎ", "ウナギ", "うな丼"]
+    },
+    {
+        "image_path": "images/funamori.png",
+        "name": ["船盛","ふなもり","刺身"]
+    },
+        {
+        "image_path": "images/kani.png",
+        "name": ["カニ","蟹","かに"]
     }
-    
+        {
+        "image_path": "images/onigiri.png",
+        "name": ["おにぎり"]
+    }
+        {
+        "image_path": "petittomato.png",
+        "name": ["トマト","プチトマト"]
+    }
 ]
+
 
 
 
