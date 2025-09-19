@@ -32,14 +32,15 @@
         "name": ["おにぎり"]
     },
     {
-        "image_path": "petittomato.png",
+        "image_path": "images/petittomato.png",
         "name": ["トマト","プチトマト"]
     },
     {
-        "image_path": "toumorokoshi.png",
+        "image_path": "images/toumorokoshi.png",
         "name": ["とうもろこし","トウモロコシ"]
     }
 ]
+
 
 
 
