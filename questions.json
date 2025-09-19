@@ -26,16 +26,21 @@
         {
         "image_path": "images/kani.png",
         "name": ["カニ","蟹","かに"]
-    }
+    },
         {
         "image_path": "images/onigiri.png",
         "name": ["おにぎり"]
-    }
+    },
         {
         "image_path": "petittomato.png",
         "name": ["トマト","プチトマト"]
+    },
+    {
+        "image_path": "toumorokoshi.png",
+        "name": ["とうもろこし","トウモロコシ"]
     }
 ]
+
 
 
 
