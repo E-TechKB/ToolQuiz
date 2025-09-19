@@ -14,8 +14,13 @@
     {
         "image_path": "images/kiwi.png",
         "name": ["キウイ", "きうい", "kiwi"]
+    },
+    {
+        "image_path": "images/unadon.jpg",
+        "name": ["うなぎ", "ウナギ", "うな丼"]
     }
     
 ]
+
 
 
