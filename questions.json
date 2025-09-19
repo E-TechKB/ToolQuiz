@@ -10,6 +10,12 @@
     {
         "image_path": "images/orange.png",
         "name": ["みかん", "ミカン", "オレンジ", "おれんじ"]
+    },
+    {
+        "image_path": "images/kiwi.png",
+        "name": ["キウイ", "きうい", "kiwi"]
     }
+    
 ]
+
 
